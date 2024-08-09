@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - v*-r*
+  workflow_dispatch:
 
 jobs:
   build:
@@ -37,6 +38,11 @@ jobs:
         run: |
           tar cvf crossmac.tar crossmac
           zstd -19 crossmac.tar
+      - name: post artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: osxcross-linux-x86-64.tar.xz
+          path: crossmac.tar
       - name: Publish Releases
         run: |
           gh config set prompt disabled
